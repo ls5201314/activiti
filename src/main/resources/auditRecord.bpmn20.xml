@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+             xmlns:activiti="http://activiti.org/bpmn"
+             xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+             xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC"
+             xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI"
+             typeLanguage="http://www.w3.org/2001/XMLSchema"
+             expressionLanguage="http://www.w3.org/1999/XPath"
+             targetNamespace="http://www.activiti.org/processdef">
+  <process id="auditRecord" name="数据审核" isExecutable="true">
+    <startEvent id="startEvent" name="提交审核" activiti:initiator="applyUserId"></startEvent>
+    <userTask id="audit" name="审核数据记录" activiti:assignee="${auditUser}">
+      <extensionElements>
+        <activiti:formProperty id="approve" name="审批意见" type="enum" required="true" readable="true" writable="true">
+          <activiti:value id="true" name="发布"/>
+          <activiti:value id="false" name="拒绝"/>
+        </activiti:formProperty>
+      </extensionElements>
+    </userTask>
+    <sequenceFlow id="flow1" sourceRef="startEvent" targetRef="audit"></sequenceFlow>
+    <endEvent id="endEvent" name="结束流程">
+      <extensionElements>
+        <activiti:executionListener event="start" delegateExpression="${auditRecordEndListener}"></activiti:executionListener>
+      </extensionElements>
+    </endEvent>
+    <sequenceFlow id="flow2" sourceRef="audit" targetRef="endEvent"></sequenceFlow>
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_auditRecord">
+    <bpmndi:BPMNPlane bpmnElement="auditRecord" id="BPMNPlane_auditRecord">
+      <bpmndi:BPMNShape bpmnElement="startEvent" id="BPMNShape_sid-B19FE667-DC30-4AD3-8A04-BBC24EAA6008">
+        <omgdc:Bounds height="30.0" width="30.0" x="240.0" y="255.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="audit" id="BPMNShape_sid-A6310435-7090-479B-9C71-FC53357A41B6">
+        <omgdc:Bounds height="80.0" width="100.0" x="390.0" y="230.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="endEvent" id="BPMNShape_sid-8A212AD7-E91D-4C6A-90F7-A69C6E6D2FEA">
+        <omgdc:Bounds height="28.0" width="28.0" x="600.0" y="256.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="sid-E99AA1D7-E4D7-429C-A6E7-456537F7CF45" id="BPMNEdge_sid-E99AA1D7-E4D7-429C-A6E7-456537F7CF45">
+        <omgdi:waypoint x="490.0" y="270.0"></omgdi:waypoint>
+        <omgdi:waypoint x="600.0" y="270.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-79FB2882-E80C-4B94-965C-8030BF391402" id="BPMNEdge_sid-79FB2882-E80C-4B94-965C-8030BF391402">
+        <omgdi:waypoint x="270.0" y="270.0"></omgdi:waypoint>
+        <omgdi:waypoint x="390.0" y="270.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>
