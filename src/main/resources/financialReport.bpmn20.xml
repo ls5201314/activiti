@@ -1,4 +1,5 @@
 <definitions id="definitions"
+             xmlns:activiti="http://activiti.org/bpmn"
              targetNamespace="http://activiti.org/bpmn20"
              xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL">
 
@@ -9,11 +10,15 @@
             <documentation>
                 Write monthly financial reportfor publication to shareholders.
             </documentation>
+            <extensionElements>
+                <activiti:executionListener event="start" delegateExpression="${auditRecordEndListener}"></activiti:executionListener>
+            </extensionElements>
             <potentialOwner>
                 <resourceAssignmentExpression>
                     <formalExpression>sales</formalExpression>
                 </resourceAssignmentExpression>
             </potentialOwner>
+
         </userTask>
         <sequenceFlow id='flow2' sourceRef='writeReportTask' targetRef='verifyReportTask' />
         <userTask id="verifyReportTask" name="Verify monthly financial report" >
@@ -28,6 +33,8 @@
             </potentialOwner>
         </userTask>
         <sequenceFlow id='flow3' sourceRef='verifyReportTask' targetRef='theEnd' />
-        <endEvent id="theEnd" />
+        <endEvent id="theEnd" >
+
+        </endEvent>
     </process>
 </definitions>
