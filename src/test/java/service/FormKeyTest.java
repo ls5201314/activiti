@@ -64,6 +64,6 @@ public class FormKeyTest extends BaseService {
         task = taskService.createTaskQuery().taskAssignee("user2").orderByTaskCreateTime().desc().list().get(0);
         assertNotNull(task);
         renderedTaskForm = formService.getRenderedTaskForm(task.getId());
-        assertEquals("<input id=\"first-name\" value=\"kafeitu\" />", renderedTaskForm);
+        assertEquals("<input id=\"first-name\" value=\"kafeitu\" />", renderedTaskForm); //<input id="first-name" />
     }
 }
